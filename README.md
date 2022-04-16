@@ -8,9 +8,19 @@ See **[Assignment.pdf](Assignment.pdf)** for more details on the assignment.
 
 The assets are from the **SNAP Datasets** by Jure Leskovec and Andrej Krevl, available [here](http://snap.stanford.edu/data).
 
-## 🔧 Usage
+## 🔧 Building
 
 ```bash
+mkdir build
+cd build
+cmake ..
 make
 ./output
+```
+
+## Usage
+
+```
+./pagerank-hits
+ 
 ```
