@@ -15,10 +15,9 @@ mkdir build
 cd build
 cmake ..
 make
-./output
 ```
 
-## Usage
+## 🕹️ Usage
 
 ```
 ./pagerank-hits
