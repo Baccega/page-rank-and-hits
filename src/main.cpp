@@ -16,8 +16,8 @@ int main(int argc, char *argv[]){
         topk = atoi(argv[2]);
     }
     cout << "PageRank - Hits" << endl << "------" << endl;
-    printFancy("TopK", topk, 25);
-    printFancy("Filename", filename, 25);
+    printFancy("TopK", topk, 15);
+    printFancy("Filename", filename, 15);
     cout << "------" << endl << endl;
 
     // Start measuring time
@@ -59,12 +59,12 @@ int main(int argc, char *argv[]){
 
     cout << "All done!" << endl << "------" << endl; 
     
-    printFancy("Total time elapsed [ns]", elapsedTotal, 8);
-    printFancy("Transposed graph time elapsed [ns]", elapsedGraph, 8);
-    printFancy("PageRank time elapsed [ns]", elapsedPageRank, 8);
-    printFancy("HITS time elapsed [ns]", elapsedHits, 8);
-    printFancy("InDegree time elapsed [ns]", elapsedInDegree, 8);
-    printFancy("Jaccard time elapsed [ns]", elapsedJaccard, 8);
+    printFancy("Total time elapsed [ns]", elapsedTotal, 35, true);
+    printFancy("Transpose graph time elapsed [ns]", elapsedGraph, 35, true);
+    printFancy("PageRank time elapsed [ns]", elapsedPageRank, 35, true);
+    printFancy("HITS time elapsed [ns]", elapsedHits, 35, true);
+    printFancy("InDegree time elapsed [ns]", elapsedInDegree, 35, true);
+    printFancy("Jaccard time elapsed [ns]", elapsedJaccard, 35, true);
 
     return 0;
 }

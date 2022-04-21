@@ -6,9 +6,11 @@
 
 using namespace std;
 
-template<typename T> void printFancy(string header,T t, const int& width){
-    cout << left << setw(width) << setfill(' ') << t;
-    cout << "<= " <<header << endl;
+template<typename T1,typename T2> void printFancy(T1 firstArg,T2 secondArg, const int& width, bool reversed = false){
+    auto arrow = (reversed)? " => " : " <= "; 
+    
+    cout << left << setw(width) << setfill(' ') << firstArg;
+    cout << arrow << secondArg << endl;
 }
 
 #endif
