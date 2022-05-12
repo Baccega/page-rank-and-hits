@@ -8,6 +8,6 @@ add_compile_options(
 )
 
 
-set(LIB_SOURCE_FILES src/hits.h src/pagerank.h)
+set(LIB_SOURCE_FILES src/hits.h src/pagerank.h src/csr.h src/inDegree.h src/utils.h)
 
 add_executable(pagerank-hits src/main.cpp ${LIB_SOURCE_FILES})
