@@ -8,20 +8,24 @@ using namespace std;
 
 class CSR {      
   public:        
-    int* value;
-    int* index;  
-    int* row;  
-    int value_size;
+    // int* index;  
+    // int* row;  
+    int index [6] = { 0, 2, 0, 1, 1, 2 };
+    int row [3] = { 0, 2, 4 };
     int index_size;  
-    int row_size;  
-    int N_NODES;  
-
+    int row_size;     // Same as n_nodes  
+    int n_nodes;  
+ 
     CSR(string filename) {
-      N_NODES = 10;
+      n_nodes = 3;
+      row_size = 3;
+
+      index_size = 6;
+
     }
 
     ~CSR() {
-      N_NODES = 0;
+      n_nodes = 0;
     }
 
 

@@ -3,21 +3,22 @@
 
 #include <vector>
 #include <queue>
+#include "utils.h"
 #include "csr.h"
 
 using namespace std;
 
-vector<pair<int, double>> getInDegreeTopK(CSR csr, int topK)
-{
 
+
+vector<pair<int, double>> getInDegreeTopK(const CSR& csr, int topK){
     // int *row_pointer = Utilities::openMMap(csr.getMapRowPtrFilename(), csr.getRowPointerSize());
-    double score = 0.0;
-
     MaxHeap<pair<int, double>> scores(topK);
 
-    for (int i = 0; i < csr.N_NODES; i++){
-        score = csr.row[i + 1] - csr.row[i];
-        auto pair = make_pair(i, score / csr.N_NODES);
+    for (int i = 0; i < csr.n_nodes ; i++){
+        // Is last element? then: csr.n_nodes; else: csr.row[i + 1]
+        int nextElement = (i == (csr.n_nodes - 1))? csr.index_size : csr.row[i + 1];
+        double score = nextElement - csr.row[i];
+        auto pair = make_pair(i, score / csr.n_nodes);
         scores.push(pair);
     };
 

@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <iostream>
+#include <algorithm>
 #include <iomanip>
 
 using namespace std;
@@ -55,10 +56,10 @@ public:
     }
 
     void push(T &d){
-        if (_size == fixed_size)
+        if (_size == _maxSize)
         {
             // min elements in a max heap lies at leaves only.
-            auto minItr = std::min_element(begin(_data) + _size / 2, end(_data));
+            auto minItr = min_element(begin(_data) + _size / 2, end(_data));
             auto minPos{minItr - _data.begin()};
             auto min{*minItr};
 
