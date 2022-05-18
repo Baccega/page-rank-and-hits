@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char *argv[]){
     int topk = 10;
-    string filename = "web-Stanford.txt";
+    string filename = "assets/web-NotreDame.txt";
     
     if(argc != 1){
         filename = argv[1];
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
     auto endTransposed = std::chrono::high_resolution_clock::now();
 
     // Creating csr matrix
-    cout << "- Creating csr matrix from transposed" << endl;
+    cout << "- Creating csr matrix" << endl;
 
     CSR csr = CSR(filename);
 
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
     // Do PageRank
     cout << "- PageRank" << endl;
 
-    vector<pair<int, double>> pageRankTopK = getPageRankTopK(csr, topk);
+    vector<pair<double, int>> pageRankTopK = getPageRankTopK(csr, topk);
 
     auto endPageRank = std::chrono::high_resolution_clock::now();
 
@@ -53,7 +53,12 @@ int main(int argc, char *argv[]){
     // Do In Degree
     cout << "- InDegree" << endl;
 
-    vector<pair<int, double>> inDegreeTopK = getInDegreeTopK(csr, topk);
+    vector<pair<double, int>> inDegreeTopK = getOutDegreeTopK(csr, topk);
+
+    cout << "\t- InDegree top 3 Nodes:" << endl; 
+    printFancy(inDegreeTopK[0].second, inDegreeTopK[0].first, 10, true);
+    printFancy(inDegreeTopK[1].second, inDegreeTopK[1].first, 10, true);
+    printFancy(inDegreeTopK[2].second, inDegreeTopK[2].first, 10, true);
 
     auto endInDegree = std::chrono::high_resolution_clock::now();
     

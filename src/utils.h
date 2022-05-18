@@ -7,6 +7,20 @@
 
 using namespace std;
 
+bool fileExists(string filename)
+{
+    FILE *file;
+    if (file = fopen("a.txt", "r"))
+    {
+        fclose(file);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 template <typename T1, typename T2>
 void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = false)
 {
@@ -17,16 +31,19 @@ void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = fal
 }
 
 template <class T>
-class MaxHeap{
+class MaxHeap
+{
     vector<T> _data;
     int _maxSize;
     int _size;
 
-    int parent(int i){
+    int parent(int i)
+    {
         return (i - 1) / 2;
     }
 
-    void heapify(int i, bool downward = false){
+    void heapify(int i, bool downward = false)
+    {
         int l = 2 * i + 1;
         int r = 2 * i + 2;
         int largest = 0;
@@ -49,13 +66,15 @@ class MaxHeap{
     }
 
 public:
-    MaxHeap(int maxSize) { // Constructor with parameters
-      _maxSize = maxSize;
-      _data = vector<T>(maxSize);
-      _size = 0;
+    MaxHeap(int maxSize)
+    { // Constructor with parameters
+        _maxSize = maxSize;
+        _data = vector<T>(maxSize);
+        _size = 0;
     }
 
-    void push(T &d){
+    void push(T &d)
+    {
         if (_size == _maxSize)
         {
             // min elements in a max heap lies at leaves only.
@@ -82,25 +101,28 @@ public:
         std::push_heap(_data.begin(), _data.begin() + _size);
     }
 
-    T pop(){
+    T pop()
+    {
         T d = _data.front();
         std::pop_heap(_data.begin(), _data.begin() + _size);
         _size--;
         return d;
     }
 
-    T top(){
+    T top()
+    {
         return _data.front();
     }
 
-    int size() const{
+    int size() const
+    {
         return _size;
     }
 
-    explicit operator vector<T>() const { 
+    explicit operator vector<T>() const
+    {
         return _data;
     }
 };
-
 
 #endif

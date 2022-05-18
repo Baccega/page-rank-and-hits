@@ -28,7 +28,7 @@ Find top-K results of each algorithm in the graph and the Jaccard's coeffiecient
 
 OPTIONS:
 
-    filename                   The graph to process (default: web-Stanford.txt)
+    filename                   The graph to process (default: assets/web-Stanford.txt)
     topK                       Set top-K number (default: 10)
  
 ```
@@ -36,5 +36,5 @@ OPTIONS:
 If you run `./pagerank-hits` without arguments it will run with the default arguments, so it's the same as writing:
 
 ```
-./pagerank-hits web-Stanford.txt 10
+./pagerank-hits assets/web-Stanford.txt 10
 ```
