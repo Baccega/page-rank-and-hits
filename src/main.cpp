@@ -9,19 +9,22 @@
 
 using namespace std;
 
-
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
     int topk = 10;
-    string filename = "assets/web-NotreDame.txt";
-    
-    if(argc != 1){
+    string filename = "assets/web-Stanford.txt";
+
+    if (argc != 1)
+    {
         filename = argv[1];
         topk = atoi(argv[2]);
     }
-    cout << "PageRank - Hits" << endl << "------" << endl;
+    cout << "PageRank - Hits" << endl
+         << "------" << endl;
     printFancy("TopK", topk, 15);
     printFancy("Filename", filename, 15);
-    cout << "------" << endl << endl;
+    cout << "------" << endl
+         << endl;
 
     // Start measuring time
     auto begin = std::chrono::high_resolution_clock::now();
@@ -49,22 +52,22 @@ int main(int argc, char *argv[]){
     cout << "- HITS" << endl;
 
     auto endHits = std::chrono::high_resolution_clock::now();
-    
+
     // Do In Degree
     cout << "- InDegree" << endl;
 
     vector<pair<double, int>> inDegreeTopK = getOutDegreeTopK(csr, topk);
 
-    cout << "\t- InDegree top 3 Nodes:" << endl; 
+    cout << "\t- InDegree top 3 Nodes:" << endl;
     printFancy(inDegreeTopK[0].second, inDegreeTopK[0].first, 10, true);
     printFancy(inDegreeTopK[1].second, inDegreeTopK[1].first, 10, true);
     printFancy(inDegreeTopK[2].second, inDegreeTopK[2].first, 10, true);
 
     auto endInDegree = std::chrono::high_resolution_clock::now();
-    
+
     // Do Jaccard
-    cout << "- Jaccard" << endl << endl;
-    
+    cout << "- Jaccard" << endl
+         << endl;
 
     // Stop measuring time and calculate the elapsed time
     auto end = std::chrono::high_resolution_clock::now();
@@ -77,8 +80,9 @@ int main(int argc, char *argv[]){
     auto elapsedInDegree = std::chrono::duration_cast<std::chrono::nanoseconds>(endInDegree - endHits).count();
     auto elapsedJaccard = std::chrono::duration_cast<std::chrono::nanoseconds>(end - endInDegree).count();
 
-    cout << "All done!" << endl << "------" << endl; 
-    
+    cout << "All done!" << endl
+         << "------" << endl;
+
     printFancy("Total time elapsed [ns]", elapsedTotal, 40, true);
     printFancy("Transpose graph time elapsed [ns]", elapsedGraph, 40, true);
     printFancy("Generating csr matrix time elapsed [ns]", elapsedCsr, 40, true);

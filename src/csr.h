@@ -43,7 +43,7 @@ public:
     csrIndexFilename = mainFilename + "-csr-index.txt";
 
     
-    if(fileExists(sortedFilename)){
+    if(!fileExists(sortedFilename)){
       cout << "\t- SORTING DATASET" << endl;
       sortDataset(mainFilename, sortedFilename);
     } else {
@@ -135,7 +135,7 @@ private:
     }
     ungetc(character, f);
 
-    cout << "\t- N° of Nodes: " << n_nodes << ", N° of Edges: " << n_edges << endl;
+    cout << "\t- N_NODES: " << n_nodes << ", N_EDGES: " << n_edges << endl;
 
     return f;
   }

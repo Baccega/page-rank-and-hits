@@ -9,8 +9,8 @@ using namespace std;
 
 bool fileExists(string filename)
 {
-    FILE *file;
-    if (file = fopen("a.txt", "r"))
+    FILE *file = fopen(filename.c_str(), "r");
+    if (file)
     {
         fclose(file);
         return true;
@@ -24,7 +24,7 @@ bool fileExists(string filename)
 template <typename T1, typename T2>
 void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = false)
 {
-    auto arrow = (reversed) ? " => " : " <= ";
+    auto arrow = (reversed) ? " -> " : " <- ";
 
     cout << left << setw(width) << setfill(' ') << firstArg;
     cout << arrow << secondArg << endl;
