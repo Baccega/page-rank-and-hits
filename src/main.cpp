@@ -1,6 +1,7 @@
-#include <iostream>
 #include <chrono>
+#include <iostream>
 #include <vector>
+
 #include "csr.h"
 #include "hits.h"
 #include "inDegree.h"
@@ -9,13 +10,11 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     int topk = 10;
     string filename = "assets/web-Stanford.txt";
 
-    if (argc != 1)
-    {
+    if (argc != 1) {
         filename = argv[1];
         topk = atoi(argv[2]);
     }
