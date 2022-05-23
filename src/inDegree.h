@@ -30,14 +30,14 @@ vector<pair<double, int>> getInDegreeTopK(const CSR& csr, int topK) {
     map<int, int> tmpMap;
 
     for (int i = 0; i < csr.n_edges; i++) {
-        if (!tmpMap[csr.row[i]]) {
-            tmpMap[csr.row[i]] = 0;
+        if (!tmpMap[csr.index[i]]) {
+            tmpMap[csr.index[i]] = 0;
         }
-        tmpMap[csr.row[i]]++;
+        tmpMap[csr.index[i]]++;
     };
 
     for (auto iter = tmpMap.begin(); iter != tmpMap.end(); iter++) {
-        double score = (*iter).second / csr.n_nodes;
+        double score = (double) (*iter).second / csr.n_nodes;
         auto pair = make_pair(score, (*iter).first);
         scores.push(pair);
     }

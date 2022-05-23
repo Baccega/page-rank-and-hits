@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     // Do In Degree
     cout << "- InDegree" << endl;
 
-    vector<pair<double, int>> inDegreeTopK = getOutDegreeTopK(csr, topk);
+    vector<pair<double, int>> inDegreeTopK = getInDegreeTopK(csr, topk);
 
     cout << "\t- InDegree top 3 Nodes:" << endl;
     printFancy(inDegreeTopK[0].second, inDegreeTopK[0].first, 10, true);
