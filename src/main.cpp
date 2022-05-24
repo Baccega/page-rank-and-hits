@@ -47,6 +47,11 @@ int main(int argc, char *argv[]) {
 
     auto endPageRank = std::chrono::high_resolution_clock::now();
 
+    cout << "\t- PageRank top 3 nodes:" << endl;
+    printFancy(pageRankTopK[0].second, pageRankTopK[0].first, 10, true);
+    printFancy(pageRankTopK[1].second, pageRankTopK[1].first, 10, true);
+    printFancy(pageRankTopK[2].second, pageRankTopK[2].first, 10, true);
+
     // Do HITS
     cout << "- HITS" << endl;
 
@@ -57,7 +62,7 @@ int main(int argc, char *argv[]) {
 
     vector<pair<double, int>> inDegreeTopK = getInDegreeTopK(csr, topk);
 
-    cout << "\t- InDegree top 3 Nodes:" << endl;
+    cout << "\t- InDegree top 3 nodes:" << endl;
     printFancy(inDegreeTopK[0].second, inDegreeTopK[0].first, 10, true);
     printFancy(inDegreeTopK[1].second, inDegreeTopK[1].first, 10, true);
     printFancy(inDegreeTopK[2].second, inDegreeTopK[2].first, 10, true);
