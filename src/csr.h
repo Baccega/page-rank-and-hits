@@ -27,6 +27,7 @@ class CSR {
     // int row [3] = {0, 2 ,4};
     int *index;
     int *row;
+    vector<double> values;
     int csrIndexFileSize;
     int csrRowFileSize;
     int n_nodes = 3;
@@ -38,9 +39,9 @@ class CSR {
 
     CSR(string filename) {
         mainFilename = "../" + filename;
-        sortedFilename = mainFilename + "-sorted.txt";
-        csrRowFilename = mainFilename + "-csr-row.txt";
-        csrIndexFilename = mainFilename + "-csr-index.txt";
+        sortedFilename = regex_replace(mainFilename, std::regex(".txt"), "-sorted.txt");
+        csrRowFilename = regex_replace(mainFilename, std::regex(".txt"), "-csr-row.txt");
+        csrIndexFilename = regex_replace(mainFilename, std::regex(".txt"), "-csr-index.txt");
 
         if (!fileExists(sortedFilename)) {
             cout << "\t- SORTING DATASET" << endl;
@@ -58,6 +59,9 @@ class CSR {
         cout << "\t- COMPUTING CSR START" << endl;
 
         FILE *mainFile = parseFile(sortedFilename);
+
+        values = vector<double>(n_nodes, 1);
+
         FILE *column_index_file = fopen(csrIndexFilename.c_str(), "w+");
         FILE *row_pointer_file = fopen(csrRowFilename.c_str(), "w+");
 
@@ -90,7 +94,7 @@ class CSR {
         fclose(column_index_file);
         fclose(mainFile);
 
-        cout << "\t- FILES CREATED" << endl;
+        cout << "\t- TMP FILES CREATED" << endl;
         csrRowFileSize = n_nodes + 1;
 
         // Initialize mmap1
@@ -99,10 +103,14 @@ class CSR {
     }
 
     ~CSR() {
-        cout << "RELEASING CSR" << endl;
         // Release mmap
+        cout << "\t- RELEASING MMAP" << endl;
         closeMMap(row, csrRowFileSize);
         closeMMap(index, csrIndexFileSize);
+        // Deleting tmp files
+        cout << "\t- DELETING TMP FILES" << endl;
+        remove(csrRowFilename.c_str());
+        remove(csrIndexFilename.c_str());
     }
 
    private:
@@ -176,7 +184,7 @@ class CSR {
         // read nodes
         while (!feof(file)) {
             fscanf(file, "%d%d", &fromNode, &toNode);
-            edges.push_back(pair<int, int>(toNode, fromNode));
+            edges.push_back(pair<int, int>(fromNode, toNode));
         }
         fclose(file);
 

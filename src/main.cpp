@@ -36,14 +36,14 @@ int main(int argc, char *argv[]) {
     // Creating csr matrix
     cout << "- Creating csr matrix" << endl;
 
-    CSR csr = CSR(filename);
+//     CSR csr = CSR(filename);
 
     auto endCsr = std::chrono::high_resolution_clock::now();
 
     // Do PageRank
     cout << "- PageRank" << endl;
 
-    vector<pair<double, int>> pageRankTopK = getPageRankTopK(csr, topk);
+    vector<pair<double, int>> pageRankTopK = getPageRankTopK(filename, topk);
 
     auto endPageRank = std::chrono::high_resolution_clock::now();
 
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     // Do In Degree
     cout << "- InDegree" << endl;
 
-    vector<pair<double, int>> inDegreeTopK = getInDegreeTopK(csr, topk);
+    vector<pair<double, int>> inDegreeTopK = getInDegreeTopK(filename, topk);
 
     cout << "\t- InDegree top 3 nodes:" << endl;
     printFancy(inDegreeTopK[0].second, inDegreeTopK[0].first, 10, true);

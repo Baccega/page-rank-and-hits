@@ -2,10 +2,13 @@
 #define UTILS_H
 
 #include <algorithm>
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 
 using namespace std;
+
+double terminationThreshold = 0.0000000001;
 
 bool fileExists(string filename) {
     FILE *file = fopen(filename.c_str(), "r");
@@ -23,6 +26,18 @@ void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = fal
 
     cout << left << setw(width) << setfill(' ') << firstArg;
     cout << arrow << secondArg << endl;
+}
+
+bool checkTermination(vector<double> &p1, vector<double> &p2) {
+    double sum = 0.0;
+
+    for (int i = 0; i < p1.size(); i++) {
+        sum += pow(p1[i] - p2[i], 2);
+    }
+
+    double distance = sqrt(sum);
+
+    return distance < terminationThreshold;
 }
 
 template <class T>
