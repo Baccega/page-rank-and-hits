@@ -70,8 +70,11 @@ int main(int argc, char *argv[]) {
     auto endInDegree = std::chrono::high_resolution_clock::now();
 
     // Do Jaccard
-    cout << "- Jaccard" << endl
-         << endl;
+    cout << "- Jaccard" << endl;
+
+//     cout << "\t- PageRank-HITS: " << jaccard(pageRankTopK, hitsTopK) << endl;
+    cout << "\t- PageRank-InDegree: " << jaccard(pageRankTopK, inDegreeTopK) << endl;
+//     cout << "\t- HITS-InDegree: " << jaccard(hitsTopK, inDegreeTopK) << endl;
 
     // Stop measuring time and calculate the elapsed time
     auto end = std::chrono::high_resolution_clock::now();

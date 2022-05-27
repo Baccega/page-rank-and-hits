@@ -31,13 +31,33 @@ void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = fal
 bool checkTermination(vector<double> &p1, vector<double> &p2) {
     double sum = 0.0;
 
-    for (int i = 0; i < p1.size(); i++) {
+    for (size_t i = 0; i < p1.size(); i++) {
         sum += pow(p1[i] - p2[i], 2);
     }
 
     double distance = sqrt(sum);
 
     return distance < terminationThreshold;
+}
+
+double jaccard(const vector<pair<double, int>> &topK1, const vector<pair<double, int>> &topK2) {
+    double sum = 0.0;
+    double topK = topK1.size();
+
+    if (topK2.size() != topK1.size()) {
+        cout << " --- ERROR --- " << endl;
+        return 0.0;
+    }
+
+    for (int i = 0; i < topK; i++) {
+        for (int j = 0; j < topK; j++) {
+            if (topK1[i].second == topK2[j].second) {
+                sum += 1.0;
+            }
+        }
+    }
+
+    return sum / (topK * 2 - sum);
 }
 
 template <class T>
