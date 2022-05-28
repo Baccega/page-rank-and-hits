@@ -28,18 +28,6 @@ int main(int argc, char *argv[]) {
     // Start measuring time
     auto begin = std::chrono::high_resolution_clock::now();
 
-    // Generate transposed graph if required
-    cout << "- Generating transposed graph" << endl;
-
-    auto endTransposed = std::chrono::high_resolution_clock::now();
-
-    // Creating csr matrix
-    cout << "- Creating csr matrix" << endl;
-
-//     CSR csr = CSR(filename);
-
-    auto endCsr = std::chrono::high_resolution_clock::now();
-
     // Do PageRank
     cout << "- PageRank" << endl;
 
@@ -80,9 +68,7 @@ int main(int argc, char *argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
 
     auto elapsedTotal = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
-    auto elapsedGraph = std::chrono::duration_cast<std::chrono::nanoseconds>(endTransposed - begin).count();
-    auto elapsedCsr = std::chrono::duration_cast<std::chrono::nanoseconds>(endCsr - endTransposed).count();
-    auto elapsedPageRank = std::chrono::duration_cast<std::chrono::nanoseconds>(endPageRank - endCsr).count();
+    auto elapsedPageRank = std::chrono::duration_cast<std::chrono::nanoseconds>(endPageRank - begin).count();
     auto elapsedHits = std::chrono::duration_cast<std::chrono::nanoseconds>(endHits - endPageRank).count();
     auto elapsedInDegree = std::chrono::duration_cast<std::chrono::nanoseconds>(endInDegree - endHits).count();
     auto elapsedJaccard = std::chrono::duration_cast<std::chrono::nanoseconds>(end - endInDegree).count();
@@ -91,8 +77,6 @@ int main(int argc, char *argv[]) {
          << "------" << endl;
 
     printFancy("Total time elapsed [ns]", elapsedTotal, 40, true);
-    printFancy("Transpose graph time elapsed [ns]", elapsedGraph, 40, true);
-    printFancy("Generating csr matrix time elapsed [ns]", elapsedCsr, 40, true);
     printFancy("PageRank time elapsed [ns]", elapsedPageRank, 40, true);
     printFancy("HITS time elapsed [ns]", elapsedHits, 40, true);
     printFancy("InDegree time elapsed [ns]", elapsedInDegree, 40, true);
