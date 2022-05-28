@@ -8,7 +8,7 @@
 
 using namespace std;
 
-double terminationThreshold = 0.0000000001;
+double terminationThreshold = 0.0000001;
 
 bool fileExists(string filename) {
     FILE *file = fopen(filename.c_str(), "r");
@@ -29,15 +29,13 @@ void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = fal
 }
 
 bool checkTermination(vector<double> &p1, vector<double> &p2) {
-    double sum = 0.0;
+    double err = 0.0;
 
     for (size_t i = 0; i < p1.size(); i++) {
-        sum += pow(p1[i] - p2[i], 2);
+        err += fabs(p1[i] - p2[i]);
     }
 
-    double distance = sqrt(sum);
-
-    return distance < terminationThreshold;
+    return err < terminationThreshold;
 }
 
 double jaccard(const vector<pair<double, int>> &topK1, const vector<pair<double, int>> &topK2) {

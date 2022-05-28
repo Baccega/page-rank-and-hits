@@ -39,7 +39,7 @@ vector<pair<double, int>> getInDegreeTopK(string filename, int topK) {
 
     for (auto iter = tmpMap.begin(); iter != tmpMap.end(); iter++) {
         double score = (double) (*iter).second / csr.n_nodes;
-        auto pair = make_pair(score, (*iter).first + 1);
+        auto pair = make_pair(score, (*iter).first);
         scores.push(pair);
     }
 
