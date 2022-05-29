@@ -45,7 +45,16 @@ int main(int argc, char *argv[]) {
     // Do HITS
     cout << "- HITS" << endl;
 
+    vector<pair<double, int>> hitsTopK = getHitsTopK(filename, topk);
+
     auto endHits = std::chrono::high_resolution_clock::now();
+
+    cout << "\t- Hits top 5 nodes:" << endl;
+    printFancy(hitsTopK[0].second, hitsTopK[0].first, 10, true);
+    printFancy(hitsTopK[1].second, hitsTopK[1].first, 10, true);
+    printFancy(hitsTopK[2].second, hitsTopK[2].first, 10, true);
+    printFancy(hitsTopK[3].second, hitsTopK[2].first, 10, true);
+    printFancy(hitsTopK[4].second, hitsTopK[2].first, 10, true);
 
     // Do In Degree
     cout << "- InDegree" << endl;
@@ -64,9 +73,9 @@ int main(int argc, char *argv[]) {
     // Do Jaccard
     cout << "- Jaccard" << endl;
 
-//     cout << "\t- PageRank-HITS: " << jaccard(pageRankTopK, hitsTopK) << endl;
+    cout << "\t- PageRank-HITS: " << jaccard(pageRankTopK, hitsTopK) << endl;
     cout << "\t- PageRank-InDegree: " << jaccard(pageRankTopK, inDegreeTopK) << endl;
-//     cout << "\t- HITS-InDegree: " << jaccard(hitsTopK, inDegreeTopK) << endl;
+    cout << "\t- HITS-InDegree: " << jaccard(hitsTopK, inDegreeTopK) << endl;
 
     // Stop measuring time and calculate the elapsed time
     auto end = std::chrono::high_resolution_clock::now();
@@ -77,14 +86,16 @@ int main(int argc, char *argv[]) {
     auto elapsedInDegree = std::chrono::duration_cast<std::chrono::nanoseconds>(endInDegree - endHits).count();
     auto elapsedJaccard = std::chrono::duration_cast<std::chrono::nanoseconds>(end - endInDegree).count();
 
-    cout << "All done!" << endl
+    cout << "------" << endl
+         << "All done!" << endl
          << "------" << endl;
 
-    printFancy("Total time elapsed [ns]", elapsedTotal, 40, true);
-    printFancy("PageRank time elapsed [ns]", elapsedPageRank, 40, true);
-    printFancy("HITS time elapsed [ns]", elapsedHits, 40, true);
-    printFancy("InDegree time elapsed [ns]", elapsedInDegree, 40, true);
-    printFancy("Jaccard time elapsed [ns]", elapsedJaccard, 40, true);
+    printFancy("Total time elapsed [ns]", elapsedTotal, 30, true);
+    cout << "------" << endl;
+    printFancy("PageRank time elapsed [ns]", elapsedPageRank, 30, true);
+    printFancy("HITS time elapsed [ns]", elapsedHits, 30, true);
+    printFancy("InDegree time elapsed [ns]", elapsedInDegree, 30, true);
+    printFancy("Jaccard time elapsed [ns]", elapsedJaccard, 30, true);
 
     return 0;
 }
