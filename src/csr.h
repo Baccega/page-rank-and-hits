@@ -23,8 +23,6 @@ using namespace std;
 
 class CSR {
    public:
-    // int index [6] = {0,2,0,1,1,2};
-    // int row [3] = {0, 2 ,4};
     int *index;
     int *row;
     vector<double> values;
@@ -37,15 +35,19 @@ class CSR {
     string csrRowFilename;
     string csrIndexFilename;
 
-    CSR(string filename) {
+    CSR(string filename, bool transposed = false) {
         mainFilename = "../" + filename;
-        sortedFilename = regex_replace(mainFilename, std::regex(".txt"), "-sorted.txt");
+        if (transposed) {
+            sortedFilename = regex_replace(mainFilename, std::regex(".txt"), "-transposed-sorted.txt");
+        } else {
+            sortedFilename = regex_replace(mainFilename, std::regex(".txt"), "-sorted.txt");
+        }
         csrRowFilename = regex_replace(mainFilename, std::regex(".txt"), "-csr-row.txt");
         csrIndexFilename = regex_replace(mainFilename, std::regex(".txt"), "-csr-index.txt");
 
         if (!fileExists(sortedFilename)) {
             cout << "\t- SORTING DATASET" << endl;
-            sortDataset(mainFilename, sortedFilename);
+            sortDataset(mainFilename, sortedFilename, transposed);
         } else {
             cout << "\t- SKIPPING SORTING DATASET" << endl;
         }
@@ -157,7 +159,7 @@ class CSR {
         }
     }
 
-    void sortDataset(string mainFilename, string sortedFilename) {
+    void sortDataset(string mainFilename, string sortedFilename, bool transposed) {
         int fromNode = 0, toNode = 0;
         vector<pair<int, int>> edges = vector<pair<int, int>>();
 
@@ -184,7 +186,11 @@ class CSR {
         // read nodes
         while (!feof(file)) {
             fscanf(file, "%d%d", &fromNode, &toNode);
-            edges.push_back(pair<int, int>(fromNode, toNode));
+            if (transposed) {
+                edges.push_back(pair<int, int>(toNode, fromNode));
+            } else {
+                edges.push_back(pair<int, int>(fromNode, toNode));
+            }
         }
         fclose(file);
 

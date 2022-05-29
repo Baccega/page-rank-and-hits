@@ -8,7 +8,7 @@
 using namespace std;
 
 float DAMPING_FACTOR = 0.85;
-int LIMIT_ITERATION = 100;
+int PAGERANK_LIMIT_ITERATION = 100;
 
 void stochastization(CSR& csr) {
     vector<int> outDegrees = vector<int>(csr.n_nodes, 0);
@@ -72,10 +72,10 @@ vector<pair<double, int>> getPageRankTopK(string filename, int topK) {
         }
 
         // Termination conditions
-        if (checkTermination(p, p_new)) {
+        if (checkTermination(p, p_new, 0.0000001)) {
             cout << "\t- Converged after " << iterations << " iterations" << endl;
             loop = false;
-        } else if (iterations > LIMIT_ITERATION) {
+        } else if (iterations > PAGERANK_LIMIT_ITERATION) {
             cout << "\t- Forced termination at " << iterations << " iterations" << endl;
             loop = false;
         }

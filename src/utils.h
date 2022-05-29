@@ -8,8 +8,6 @@
 
 using namespace std;
 
-double terminationThreshold = 0.0000001;
-
 bool fileExists(string filename) {
     FILE *file = fopen(filename.c_str(), "r");
     if (file) {
@@ -28,7 +26,7 @@ void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = fal
     cout << arrow << secondArg << endl;
 }
 
-bool checkTermination(vector<double> &p1, vector<double> &p2) {
+bool checkTermination(vector<double> &p1, vector<double> &p2, double terminationThreshold) {
     double err = 0.0;
 
     for (size_t i = 0; i < p1.size(); i++) {
