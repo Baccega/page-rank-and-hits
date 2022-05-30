@@ -47,8 +47,8 @@ Find top-K results of each algorithm in the graph and the Jaccard's coeffiecient
 OPTIONS:
 
     filename          The graph to process (default: assets/web-Stanford.txt)
-    topK              Set top-K number (default: 10)
-    dampingFactor     Set PageRank's damping factor (default: 0.9)
+    topK              Set top-K number (default: 20)
+    dampingFactor     Set PageRank's damping factor (default: 0.85)
 
 ```
 
