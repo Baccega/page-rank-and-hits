@@ -1,5 +1,6 @@
 #include <chrono>
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include "csr.h"
@@ -11,17 +12,20 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    int topk = 10;
-    string filename = "assets/web-Stanford.txt";
+    int topK = 20;
+	float dampingFactor = 0.85;
+    string filename = "assets/web-NotreDame.txt";
 
     if (argc != 1) {
         filename = argv[1];
-        topk = atoi(argv[2]);
+        topK = atoi(argv[2]);
+        dampingFactor = atoi(argv[3]);
     }
     cout << "PageRank - Hits" << endl
          << "------" << endl;
-    printFancy("TopK", topk, 15);
-    printFancy("Filename", filename, 15);
+    printFancy("TopK", topK, 20);
+    printFancy("Damping Factor", dampingFactor, 20);
+    printFancy("Filename", filename, 20);
     cout << "------" << endl
          << endl;
 
@@ -31,42 +35,36 @@ int main(int argc, char *argv[]) {
     // Do PageRank
     cout << "- PageRank" << endl;
 
-    vector<pair<double, int>> pageRankTopK = getPageRankTopK(filename, topk);
+    vector<pair<double, int>> pageRankTopK = getPageRankTopK(filename, topK, dampingFactor);
 
     auto endPageRank = std::chrono::high_resolution_clock::now();
 
-    cout << "\t- PageRank top 5 nodes:" << endl;
-    printFancy(pageRankTopK[0].second, pageRankTopK[0].first, 10, true);
-    printFancy(pageRankTopK[1].second, pageRankTopK[1].first, 10, true);
-    printFancy(pageRankTopK[2].second, pageRankTopK[2].first, 10, true);
-    printFancy(pageRankTopK[3].second, pageRankTopK[2].first, 10, true);
-    printFancy(pageRankTopK[4].second, pageRankTopK[2].first, 10, true);
+    cout << "\t- PageRank top " << topK << " nodes:" << endl;
+    for (int i = 0; i < topK; i++) {
+        printFancy(pageRankTopK[i].second, pageRankTopK[i].first, 10, true, "\t  ");
+    }
 
     // Do HITS
     cout << "- HITS" << endl;
 
-    vector<pair<double, int>> hitsTopK = getHitsTopK(filename, topk);
+    vector<pair<double, int>> hitsTopK = getHitsTopK(filename, topK);
 
     auto endHits = std::chrono::high_resolution_clock::now();
 
-    cout << "\t- Hits top 5 nodes:" << endl;
-    printFancy(hitsTopK[0].second, hitsTopK[0].first, 10, true);
-    printFancy(hitsTopK[1].second, hitsTopK[1].first, 10, true);
-    printFancy(hitsTopK[2].second, hitsTopK[2].first, 10, true);
-    printFancy(hitsTopK[3].second, hitsTopK[2].first, 10, true);
-    printFancy(hitsTopK[4].second, hitsTopK[2].first, 10, true);
+    cout << "\t- Hits top " << topK << " nodes:" << endl;
+    for (int i = 0; i < topK; i++) {
+        printFancy(hitsTopK[i].second, hitsTopK[i].first, 10, true, "\t  ");
+    }
 
     // Do In Degree
     cout << "- InDegree" << endl;
 
-    vector<pair<double, int>> inDegreeTopK = getInDegreeTopK(filename, topk);
+    vector<pair<double, int>> inDegreeTopK = getInDegreeTopK(filename, topK);
 
-    cout << "\t- InDegree top 5 nodes:" << endl;
-    printFancy(inDegreeTopK[0].second, inDegreeTopK[0].first, 10, true);
-    printFancy(inDegreeTopK[1].second, inDegreeTopK[1].first, 10, true);
-    printFancy(inDegreeTopK[2].second, inDegreeTopK[2].first, 10, true);
-    printFancy(inDegreeTopK[3].second, inDegreeTopK[2].first, 10, true);
-    printFancy(inDegreeTopK[4].second, inDegreeTopK[2].first, 10, true);
+    cout << "\t- InDegree top " << topK << " nodes:" << endl;
+    for (int i = 0; i < topK; i++) {
+        printFancy(inDegreeTopK[i].second, inDegreeTopK[i].first, 10, true, "\t  ");
+    }
 
     auto endInDegree = std::chrono::high_resolution_clock::now();
 
@@ -90,12 +88,12 @@ int main(int argc, char *argv[]) {
          << "All done!" << endl
          << "------" << endl;
 
-    printFancy("Total time elapsed [ns]", elapsedTotal, 30, true);
+    printFancy("Total time elapsed [s]", (double)elapsedTotal / 100000000, 30, true);
     cout << "------" << endl;
-    printFancy("PageRank time elapsed [ns]", elapsedPageRank, 30, true);
-    printFancy("HITS time elapsed [ns]", elapsedHits, 30, true);
-    printFancy("InDegree time elapsed [ns]", elapsedInDegree, 30, true);
-    printFancy("Jaccard time elapsed [ns]", elapsedJaccard, 30, true);
+    printFancy("PageRank time elapsed [s]", (double)elapsedPageRank / 100000000, 30, true);
+    printFancy("HITS time elapsed [s]", (double)elapsedHits / 100000000, 30, true);
+    printFancy("InDegree time elapsed [s]", (double)elapsedInDegree / 100000000, 30, true);
+    printFancy("Jaccard time elapsed [us]", (double)elapsedJaccard / 100, 30, true);
 
     return 0;
 }

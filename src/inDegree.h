@@ -11,14 +11,15 @@
 
 using namespace std;
 
-vector<pair<double, int>> getOutDegreeTopK(const CSR& csr, int topK) {
+vector<pair<double, int>> getOutDegreeTopK(string filename, int topK) {
+    CSR csr = CSR(filename);
     MaxHeap<pair<double, int>> scores(topK);
 
     for (int i = 0; i < csr.n_nodes; i++) {
         bool isLastElement = (i == (csr.n_nodes - 1));
         int nextElement = isLastElement ? csr.n_edges : csr.row[i + 1];
-        double score = nextElement - csr.row[i];
-        auto pair = make_pair(score / csr.n_nodes, i);
+        double score = (double)(nextElement - csr.row[i]) / csr.n_nodes;
+        auto pair = make_pair(score, i);
         scores.push(pair);
     };
 
@@ -38,7 +39,7 @@ vector<pair<double, int>> getInDegreeTopK(string filename, int topK) {
     };
 
     for (auto iter = tmpMap.begin(); iter != tmpMap.end(); iter++) {
-        double score = (double) (*iter).second / csr.n_nodes;
+        double score = (double)(*iter).second / csr.n_nodes;
         auto pair = make_pair(score, (*iter).first);
         scores.push(pair);
     }

@@ -5,8 +5,13 @@
 #include <cmath>
 #include <iomanip>
 #include <iostream>
+#include <vector>
+
+#include "csr.h"
 
 using namespace std;
+
+double TERMINATION_THRESHOLD = 0.0000001;
 
 bool fileExists(string filename) {
     FILE *file = fopen(filename.c_str(), "r");
@@ -19,14 +24,14 @@ bool fileExists(string filename) {
 }
 
 template <typename T1, typename T2>
-void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = false) {
+void printFancy(T1 firstArg, T2 secondArg, const int &width, bool reversed = false, string prefix = "") {
     auto arrow = (reversed) ? " -> " : " <- ";
 
-    cout << left << setw(width) << setfill(' ') << firstArg;
+    cout << prefix << left << setw(width) << setfill(' ') << firstArg;
     cout << arrow << secondArg << endl;
 }
 
-bool checkTermination(vector<double> &p1, vector<double> &p2, double terminationThreshold) {
+bool checkTermination(vector<double> &p1, vector<double> &p2, double terminationThreshold = TERMINATION_THRESHOLD) {
     double err = 0.0;
 
     for (size_t i = 0; i < p1.size(); i++) {

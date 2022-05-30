@@ -62,7 +62,7 @@ class CSR {
 
         FILE *mainFile = parseFile(sortedFilename);
 
-        values = vector<double>(n_nodes, 1);
+        values = vector<double>();
 
         FILE *column_index_file = fopen(csrIndexFilename.c_str(), "w+");
         FILE *row_pointer_file = fopen(csrRowFilename.c_str(), "w+");
@@ -81,7 +81,8 @@ class CSR {
                 elemRow = 0;
                 currentRow = fromNode;
             }
-            csrIndexFileSize++;                                  // add row value as 1.0 (we'll need stochatization later)
+            values.push_back(1.0);
+            csrIndexFileSize++;   
             fwrite(&toNode, sizeof(int), 1, column_index_file);  // store on file the col
             elemRow++;
         }
@@ -113,6 +114,28 @@ class CSR {
         cout << "\t- DELETING TMP FILES" << endl;
         remove(csrRowFilename.c_str());
         remove(csrIndexFilename.c_str());
+    }
+
+    void vectorMultiplication(const std::vector<double> &vector, std::vector<double> &destVector) {
+        for (int i = 0; i < n_nodes; i++) {
+            int start = row[i];
+            bool isLastElement = (i == (n_nodes - 1));
+            int end = isLastElement ? n_edges : row[i + 1];
+            for (int j = start; j < end; j++) {
+                destVector[i] += values[j] * vector[index[j]];
+            }
+        }
+    }
+
+    void vectorTransposedMultiplication(const std::vector<double> &vector, std::vector<double> &destVector) {
+        for (int i = 0; i < n_nodes; i++) {
+            int start = row[i];
+            bool isLastElement = (i == (n_nodes - 1));
+            int end = isLastElement ? n_edges : row[i + 1];
+            for (int j = start; j < end; j++) {
+                destVector[index[j]] += values[j] * vector[i];
+            }
+        }
     }
 
    private:
