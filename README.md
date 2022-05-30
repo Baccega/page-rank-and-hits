@@ -40,14 +40,15 @@ make
 ## 🕹️ Usage
 
 ```
-./pagerank-hits [filename] [topK]
+./pagerank-hits [filename] [topK] [dampingFactor]
 
 Find top-K results of each algorithm in the graph and the Jaccard's coeffiecient between the algorithms.
 
 OPTIONS:
 
-    filename        The graph to process (default: assets/web-Stanford.txt)
-    topK            Set top-K number (default: 10)
+    filename          The graph to process (default: assets/web-Stanford.txt)
+    topK              Set top-K number (default: 10)
+    dampingFactor     Set PageRank's damping factor (default: 0.9)
 
 ```
 
