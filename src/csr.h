@@ -36,7 +36,7 @@ class CSR {
     string csrIndexFilename;
 
     CSR(string filename, bool transposed = false) {
-        mainFilename = "../test-" + filename;
+        mainFilename = "../" + filename;
         if (transposed) {
             sortedFilename = regex_replace(mainFilename, std::regex(".txt"), "-transposed-sorted.txt");
         } else {
