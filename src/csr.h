@@ -28,15 +28,15 @@ class CSR {
     vector<double> values;
     int csrIndexFileSize;
     int csrRowFileSize;
-    int n_nodes = 3;
-    int n_edges = 6;
+    int n_nodes;
+    int n_edges;
     string mainFilename;
     string sortedFilename;
     string csrRowFilename;
     string csrIndexFilename;
 
     CSR(string filename, bool transposed = false) {
-        mainFilename = "../" + filename;
+        mainFilename = "../test-" + filename;
         if (transposed) {
             sortedFilename = regex_replace(mainFilename, std::regex(".txt"), "-transposed-sorted.txt");
         } else {
@@ -52,7 +52,7 @@ class CSR {
             cout << "\t- SKIPPING SORTING DATASET" << endl;
         }
 
-        int fromNode = 0, toNode = 0;
+        int fromNode, toNode;
         int currentRow = 0;
         int elemRow = 0;
         int currentElem = 0;
@@ -64,43 +64,39 @@ class CSR {
 
         values = vector<double>();
 
-        FILE *column_index_file = fopen(csrIndexFilename.c_str(), "w+");
-        FILE *row_pointer_file = fopen(csrRowFilename.c_str(), "w+");
+        FILE *indexFile = fopen(csrIndexFilename.c_str(), "w+");
+        FILE *rowFile = fopen(csrRowFilename.c_str(), "w+");
 
-        // The first row always starts at position 0
         tempRow = 0;
-        fwrite(&tempRow, sizeof(int), 1, row_pointer_file);
+        fwrite(&tempRow, sizeof(int), 1, rowFile);
 
         while (fscanf(mainFile, "%d%d", &fromNode, &toNode) != EOF) {
-            // Check if we need to change row
             if (fromNode > currentRow) {
                 currentElem = currentElem + elemRow;
-                for (int k = currentRow + 1; k <= fromNode; k++) {  // store on file the row
-                    fwrite(&currentElem, sizeof(int), 1, row_pointer_file);
+                for (int k = currentRow + 1; k <= fromNode; k++) {
+                    fwrite(&currentElem, sizeof(int), 1, rowFile);
                 }
                 elemRow = 0;
                 currentRow = fromNode;
             }
             values.push_back(1.0);
-            csrIndexFileSize++;   
-            fwrite(&toNode, sizeof(int), 1, column_index_file);  // store on file the col
+            csrIndexFileSize++;
+            fwrite(&toNode, sizeof(int), 1, indexFile);
             elemRow++;
         }
         currentElem = currentElem + elemRow;
         for (int k = currentRow + 1; k <= n_nodes; k++) {
-            fwrite(&currentElem, sizeof(int), 1, row_pointer_file);
+            fwrite(&currentElem, sizeof(int), 1, rowFile);
         }
-        // tempRow = currentElem + elemRow - 1;
-        // fwrite(&tempRow, sizeof(int), 1, row_pointer_file);
 
-        fclose(row_pointer_file);
-        fclose(column_index_file);
+        fclose(rowFile);
+        fclose(indexFile);
         fclose(mainFile);
 
         cout << "\t- TMP FILES CREATED" << endl;
         csrRowFileSize = n_nodes + 1;
 
-        // Initialize mmap1
+        // Initialize mmap
         row = openMMap(csrRowFilename, csrRowFileSize);
         index = openMMap(csrIndexFilename, csrIndexFileSize);
     }
@@ -186,27 +182,23 @@ class CSR {
         int fromNode = 0, toNode = 0;
         vector<pair<int, int>> edges = vector<pair<int, int>>();
 
-        // create new file transposed
         auto dest = ofstream(sortedFilename);
-        // Main file
         char character;
         char str[100];
         string header;
 
         FILE *file = fopen(mainFilename.c_str(), "r");
 
-        // read header
         character = getc(file);
         while (character == '#') {
             fgets(str, 100 - 1, file);
-            header += "#" + string(str);  // copy header file
+            header += "#" + string(str);
             character = getc(file);
         }
         ungetc(character, file);
 
-        dest << header;  // paste header file
+        dest << header; 
 
-        // read nodes
         while (!feof(file)) {
             fscanf(file, "%d%d", &fromNode, &toNode);
             if (transposed) {
@@ -219,8 +211,6 @@ class CSR {
 
         std::sort(edges.begin(), edges.end());
         for (const auto &edge : edges) {
-            // cout << "from: " << std::get<0>(*i)<< "   ";
-            // cout << "to: " << std::get<1>(*i) << endl;
             dest << get<0>(edge) << "   " << get<1>(edge) << endl;
         }
         dest.close();

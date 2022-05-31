@@ -10,13 +10,18 @@ using namespace std;
 
 int HITS_LIMIT_ITERATION = 200;
 
-// HITS algorithm (power iteration)
 vector<pair<double, int>> getHitsTopK(string filename, int topK) {
     bool loop;
     double totalSum;
     int iterations = 0;
-    CSR csr = CSR(filename, true);
     MaxHeap<pair<double, int>> scores(topK);
+
+    // Get transposed csr matrix 
+    CSR csr = CSR(filename, true);
+    
+
+    // HITS algorithm (power iteration)
+    cout << "\t- HITS" << endl;
 
     // Initial authority scores
     vector<double> authorityScores = vector<double>(csr.n_nodes, 1.0);
@@ -30,6 +35,7 @@ vector<pair<double, int>> getHitsTopK(string filename, int topK) {
         csr.vectorMultiplication(authorityScores, newAuthorityScores);
 
         // Normalization
+        cout << "\t- NORMALIZATION" << endl;
         for (int i = 0; i < csr.n_nodes; i++) {
             totalSum += newAuthorityScores[i];
         }
