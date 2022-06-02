@@ -1,4 +1,4 @@
-# 📃🔍 PageRank and HITS
+# 📃🔍 PageRank / HITS computation
 
 <table><tr>
 <td> 
@@ -46,7 +46,7 @@ Find top-K results of each algorithm in the graph and the Jaccard's coeffiecient
 
 OPTIONS:
 
-    filename          The graph to process (default: assets/web-Stanford.txt)
+    filename          The graph to process (default: assets/web-NotreDame.txt)
     topK              Set top-K number (default: 20)
     dampingFactor     Set PageRank's damping factor (default: 0.85)
 
@@ -55,5 +55,5 @@ OPTIONS:
 If you run `./pagerank-hits` without arguments it will run with the default arguments, so it's the same as writing:
 
 ```
-./pagerank-hits assets/web-Stanford.txt 10
+./pagerank-hits assets/web-NotreDame.txt 20 0.85
 ```
