@@ -26,6 +26,8 @@ This project is the assignment for the course **Information Retreival and Web Se
 
 See **[Assignment.pdf](Assignment.pdf)** for more details on the assignment.
 
+See **[Report.pdf](Report.pdf)** for more details on the implementation.
+
 The assets are from the **SNAP Datasets** by Jure Leskovec and Andrej Krevl, available [here](http://snap.stanford.edu/data).
 
 ## 🔧 Building
