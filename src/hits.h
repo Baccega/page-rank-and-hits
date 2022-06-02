@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int HITS_LIMIT_ITERATION = 200;
+int HITS_LIMIT_ITERATION = 500;
 
 vector<pair<double, int>> getHitsTopK(string filename, int topK) {
     bool loop;
@@ -35,7 +35,6 @@ vector<pair<double, int>> getHitsTopK(string filename, int topK) {
         csr.vectorMultiplication(authorityScores, newAuthorityScores);
 
         // Normalization
-        cout << "\t- NORMALIZATION" << endl;
         for (int i = 0; i < csr.n_nodes; i++) {
             totalSum += newAuthorityScores[i];
         }
