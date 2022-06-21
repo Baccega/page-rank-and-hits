@@ -1,5 +1,7 @@
 # 📃🔍 PageRank / HITS computation
 
+![GitHub](https://img.shields.io/github/license/Baccega/page-rank-and-hits)
+
 <table><tr>
 <td> 
   <p align="center" style="padding: 10px">
